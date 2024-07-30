@@ -1,8 +1,9 @@
 import express, { json } from 'express';
 import fs from 'fs';
-import { Player, Seed } from './model/playerModel';
+import { Player, Seed, PlayerSeed } from './model/playerModel';
 import { User } from './model/userModel';
 import cors from 'cors';
+import { DrawPlayer } from './model/drawModel';
 
 const app = express();
 const port = 80;
@@ -112,7 +113,7 @@ app.get('/votegiven', async (req, res) => {
 
 app.get('/seed', async (req, res) => {
   const players = getPlayers();
-  const playerSeeds: Seed[] = []
+  const playerSeeds: PlayerSeed[] = []
   players.forEach(p => {
     const points = p.voteReceived.first.length * 4
       + p.voteReceived.second.length * 3
@@ -121,6 +122,29 @@ app.get('/seed', async (req, res) => {
     playerSeeds.push({ name: p.name, score: points, hand: p.hand, style: p.style, details: p.details })
   })
   res.send(playerSeeds.sort((a, b) => b.score - a.score));
+});
+
+app.get('/draw', async (req, res) => {
+  const players = getPlayers();
+  const playerSeeds: Seed[] = []
+  players.forEach(p => {
+    const points = p.voteReceived.first.length * 4
+      + p.voteReceived.second.length * 3
+      + p.voteReceived.third.length * 2
+      + p.voteReceived.fourth.length * 1
+    playerSeeds.push({ name: p.name, score: points, })
+  });
+  playerSeeds.sort((a, b) => b.score - a.score);
+  const divider = playerSeeds.length/2;
+  const topHalf = playerSeeds.map(p => p.name).slice(0, divider);
+  let bottomHalf = playerSeeds.map(p => p.name).slice(divider, playerSeeds.length);
+  const pairs: DrawPlayer[] = []
+  topHalf.forEach((player1, index) => {
+    const player2 = bottomHalf[Math.floor(Math.random() * bottomHalf.length)];
+    pairs.push({ seed: index + 1, player1: player1, player2: player2 })
+    bottomHalf = bottomHalf.filter(b => b !== player2)
+  })
+  res.send(pairs);
 });
 
 

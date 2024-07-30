@@ -6,15 +6,20 @@
         "style": "Attack",
         "details": "",
         "voteGiven": {
-            "first": "",
-            "second": "",
-            "third": "",
-            "fourth": ""
+            "first": "Ajay Sharma",
+            "second": "Abhishek Srivastava",
+            "third": "Rishi Anand",
+            "fourth": "Vipin Dwivedi"
         },
         "voteReceived": {
             "first": [],
-            "second": [],
-            "third": [],
+            "second": [
+                "Rishi Anand"
+            ],
+            "third": [
+                "Vipin Dwivedi",
+                "Abhishek Srivastava"
+            ],
             "fourth": []
         }
     },
@@ -25,15 +30,22 @@
         "style": "Balanced",
         "details": "",
         "voteGiven": {
-            "first": "",
-            "second": "",
-            "third": "",
-            "fourth": ""
+            "first": "Ajay Sharma",
+            "second": "Rishi Anand",
+            "third": "Aakash Mishra",
+            "fourth": "Vipin Dwivedi"
         },
         "voteReceived": {
-            "first": [],
-            "second": [],
-            "third": [],
+            "first": [
+                "Rishi Anand"
+            ],
+            "second": [
+                "Vipin Dwivedi",
+                "Aakash Mishra"
+            ],
+            "third": [
+                "Rahul Srivastava"
+            ],
             "fourth": []
         }
     },
@@ -50,9 +62,16 @@
             "fourth": ""
         },
         "voteReceived": {
-            "first": [],
+            "first": [
+                "Rahul Srivastava",
+                "Vipin Dwivedi",
+                "Aakash Mishra",
+                "Abhishek Srivastava"
+            ],
             "second": [],
-            "third": [],
+            "third": [
+                "Rishi Anand"
+            ],
             "fourth": []
         }
     },
@@ -101,10 +120,10 @@
         "style": "Attack",
         "details": "",
         "voteGiven": {
-            "first": "",
-            "second": "",
-            "third": "",
-            "fourth": ""
+            "first": "Ajay Sharma",
+            "second": "Rishi Anand",
+            "third": "Abhishek Srivastava",
+            "fourth": "Vipin Dwivedi"
         },
         "voteReceived": {
             "first": [],
@@ -120,16 +139,23 @@
         "style": "Balanced",
         "details": "",
         "voteGiven": {
-            "first": "",
-            "second": "",
-            "third": "",
-            "fourth": ""
+            "first": "Abhishek Srivastava",
+            "second": "Aakash Mishra",
+            "third": "Ajay Sharma",
+            "fourth": "Vipin Dwivedi"
         },
         "voteReceived": {
             "first": [],
-            "second": [],
-            "third": [],
-            "fourth": []
+            "second": [
+                "Rahul Srivastava",
+                "Abhishek Srivastava"
+            ],
+            "third": [
+                "Aakash Mishra"
+            ],
+            "fourth": [
+                "Vipin Dwivedi"
+            ]
         }
     },
     {
@@ -139,16 +165,21 @@
         "style": "Balanced",
         "details": "",
         "voteGiven": {
-            "first": "",
-            "second": "",
-            "third": "",
-            "fourth": ""
+            "first": "Ajay Sharma",
+            "second": "Abhishek Srivastava",
+            "third": "Aakash Mishra",
+            "fourth": "Rishi Anand"
         },
         "voteReceived": {
             "first": [],
             "second": [],
             "third": [],
-            "fourth": []
+            "fourth": [
+                "Rahul Srivastava",
+                "Aakash Mishra",
+                "Rishi Anand",
+                "Abhishek Srivastava"
+            ]
         }
     }
 ]

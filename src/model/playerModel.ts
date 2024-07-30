@@ -24,7 +24,11 @@ export interface Player extends User, PlayerAttribute {
     voteReceived: VoteReceived
 }
 
-export interface Seed extends PlayerAttribute {
+export interface Seed{
     name: string
     score: number
+}
+
+export interface PlayerSeed extends PlayerAttribute, Seed {
+    
 }
