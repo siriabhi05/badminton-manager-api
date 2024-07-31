@@ -1,3 +1,6 @@
 import { Pair } from "./pairModel";
 
-export type Draw = Map<string, Pair[]>
+export interface Draw {
+    group: "Group A" | "Group B"
+    pairs: Pair[]
+}

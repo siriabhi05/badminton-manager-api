@@ -20,7 +20,7 @@ app.use(express.json());
 const getPlayers = () => {
   let players: Player[] = [];
   try {
-    players = JSON.parse(fs.readFileSync('data/players.json').toString());
+    players = JSON.parse(fs.readFileSync('data/players.json').toString()) as Player[];
     return players;
 
   }
@@ -47,7 +47,7 @@ const updatePlayers = (players: Player[]) => {
 const getPairs = () => {
 
   try {
-    const pairs: Pair[] = JSON.parse(fs.readFileSync('data/pairs.json').toString());
+    const pairs: Pair[] = JSON.parse(fs.readFileSync('data/pairs.json').toString()) as Pair[];
     return pairs;
   }
   catch (e) {
@@ -70,7 +70,7 @@ const updatePairs = (pairs: Pair[]) => {
 const getExternalPairs = () => {
 
   try {
-    const pairs: Pair[] = JSON.parse(fs.readFileSync('data/externalPairs.json').toString());
+    const pairs: Pair[] = JSON.parse(fs.readFileSync('data/externalPairs.json').toString()) as Pair[];
     return pairs;
   }
   catch (e) {
@@ -93,18 +93,18 @@ const updateExternalPairs = (pairs: Pair[]) => {
 const getDraw = () => {
 
   try {
-    const draw: Draw = JSON.parse(fs.readFileSync('data/draw.json').toString());
-    return draw;
+    const draws: Draw[] = JSON.parse(fs.readFileSync('data/draw.json').toString()) as Draw[];
+    return draws;
   }
   catch (e) {
     console.log(e);
-    return new Map<string, Pair[]>()
+    return []
   }
 }
 
-const updateDraw = (draw: Draw) => {
+const updateDraw = (draws: Draw[]) => {
   try {
-    fs.writeFileSync('data/draw.json', JSON.stringify(draw));
+    fs.writeFileSync('data/draw.json', JSON.stringify(draws));
     return true
   }
   catch (e) {
@@ -259,10 +259,10 @@ app.post('/externalPairs', async (req, res) => {
 });
 
 app.get('/draw', async (req, res) => {
-  const groups: Draw = getDraw();
+  let groups: Draw[] = getDraw();
   const pairs = getPairs();
   const externalPairs = getExternalPairs();
-  if (groups.size === 0 && pairs && pairs.length > 0 && externalPairs && externalPairs.length > 0) {
+  if (groups.length === 0 && pairs && pairs.length > 0 && externalPairs && externalPairs.length > 0) {
     const seed1Pair = pairs.find(p => p.seed === 1)!;
     const seed2Pair = pairs.find(p => p.seed === 2)!;
     const filteredPair = pairs.filter(p => p.seed !== 1 && p.seed !== 2)
@@ -270,8 +270,8 @@ app.get('/draw', async (req, res) => {
     const group2NextPair = filteredPair.find(p => p.seed !== group1NextPair.seed)!
     const group1ExternalPair = externalPairs[Math.floor(Math.random() * externalPairs.length)];
     const group2ExternalPair = externalPairs.find(p => p.seed !== group1ExternalPair.seed)!
-    groups.set("Group A", [seed1Pair, group1NextPair, group1ExternalPair])
-    groups.set("Group B", [seed2Pair, group2NextPair, group2ExternalPair])
+    groups.push({ group: "Group A", pairs: [seed1Pair, group1NextPair, group1ExternalPair] })
+    groups.push({ group: "Group B", pairs: [seed2Pair, group2NextPair, group2ExternalPair] })
     updateDraw(groups)
   }
   res.send(groups);
@@ -279,13 +279,13 @@ app.get('/draw', async (req, res) => {
 
 app.get('/draw/status', async (req, res) => {
   const draw = getDraw();
-  res.send(draw.size > 0);
+  res.send(draw.length > 0);
 
 });
 
 app.post('/draw/reset', async (req, res) => {
   try {
-    updateDraw(new Map<string, Pair[]>())
+    updateDraw([])
     res.send(true);
   }
   catch (e) {
