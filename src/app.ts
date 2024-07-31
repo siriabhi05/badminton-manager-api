@@ -239,17 +239,36 @@ app.post('/pairs/reset', async (req, res) => {
 
 });
 
-app.get('/externalPairs', async (req, res) => {
+app.get('/externalpairs', async (req, res) => {
   const pairs = getExternalPairs();
   res.send(pairs);
 
 });
 
-app.post('/externalPairs', async (req, res) => {
+app.post('/externalpairs', async (req, res) => {
   try {
-    if (req.body.pairs && req.body.pairs.length === 2)
-      res.send(updateExternalPairs(req.body.pairs));
-    res.send(false);
+    const pairs = req.body.pairs as Pair[];
+    if (pairs && pairs.length === 2) {
+      if (updateExternalPairs(pairs)) {
+        const draw = getDraw();
+        for (let i = 0; i < draw.length; i++) {
+          const d = draw[i];
+          let pair = d.pairs.find(p => p.seed === pairs[0].seed)
+          if (pair) {
+            pair.player1 = pairs[0].player1;
+            pair.player2 = pairs[0].player2
+          }
+          pair = d.pairs.find(p => p.seed === pairs[1].seed)
+          if (pair) {
+            pair.player1 = pairs[1].player1;
+            pair.player2 = pairs[1].player2
+          }
+        }
+        updateDraw(draw)
+      }
+
+    }
+    res.send(true);
   }
   catch (e) {
     console.log(e);
