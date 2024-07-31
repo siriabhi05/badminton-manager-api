@@ -3,7 +3,8 @@ import fs from 'fs';
 import { Player, Seed, PlayerSeed } from './model/playerModel';
 import { User } from './model/userModel';
 import cors from 'cors';
-import { DrawPlayer } from './model/drawModel';
+import { Pair } from './model/pairModel';
+import { Draw } from './model/drawModel';
 
 const app = express();
 const port = 80;
@@ -40,6 +41,76 @@ const updatePlayers = (players: Player[]) => {
     return false
   }
 
+}
+
+
+const getPairs = () => {
+
+  try {
+    const pairs: Pair[] = JSON.parse(fs.readFileSync('data/pairs.json').toString());
+    return pairs;
+  }
+  catch (e) {
+    console.log(e);
+    return []
+  }
+}
+
+const updatePairs = (pairs: Pair[]) => {
+  try {
+    fs.writeFileSync('data/pairs.json', JSON.stringify(pairs));
+    return true
+  }
+  catch (e) {
+    console.log(e);
+    return false
+  }
+}
+
+const getExternalPairs = () => {
+
+  try {
+    const pairs: Pair[] = JSON.parse(fs.readFileSync('data/externalPairs.json').toString());
+    return pairs;
+  }
+  catch (e) {
+    console.log(e);
+    return []
+  }
+}
+
+const updateExternalPairs = (pairs: Pair[]) => {
+  try {
+    fs.writeFileSync('data/externalPairs.json', JSON.stringify(pairs));
+    return true
+  }
+  catch (e) {
+    console.log(e);
+    return false
+  }
+}
+
+const getDraw = () => {
+
+  try {
+    const draw: Draw = JSON.parse(fs.readFileSync('data/draw.json').toString());
+    return draw;
+  }
+  catch (e) {
+    console.log(e);
+    return new Map<string, Pair[]>()
+  }
+}
+
+const updateDraw = (draw: Draw) => {
+  try {
+    fs.writeFileSync('data/draw.json', JSON.stringify(draw));
+    return true
+  }
+  catch (e) {
+    console.log(e);
+    return false
+  }
 }
 
 app.post('/login', async (req, res) => {
@@ -124,32 +195,111 @@ app.get('/seed', async (req, res) => {
   res.send(playerSeeds.sort((a, b) => b.score - a.score));
 });
 
-app.get('/draw', async (req, res) => {
-  const players = getPlayers();
-  const playerSeeds: Seed[] = []
-  players.forEach(p => {
-    const points = p.voteReceived.first.length * 4
-      + p.voteReceived.second.length * 3
-      + p.voteReceived.third.length * 2
-      + p.voteReceived.fourth.length * 1
-    playerSeeds.push({ name: p.name, score: points, })
-  });
-  playerSeeds.sort((a, b) => b.score - a.score);
-  const divider = playerSeeds.length/2;
-  const topHalf = playerSeeds.map(p => p.name).slice(0, divider);
-  let bottomHalf = playerSeeds.map(p => p.name).slice(divider, playerSeeds.length);
-  const pairs: DrawPlayer[] = []
-  topHalf.forEach((player1, index) => {
-    const player2 = bottomHalf[Math.floor(Math.random() * bottomHalf.length)];
-    pairs.push({ seed: index + 1, player1: player1, player2: player2 })
-    bottomHalf = bottomHalf.filter(b => b !== player2)
-  })
+app.get('/pairs', async (req, res) => {
+  const pairs = getPairs();
+  if (pairs.length == 0) {
+    const players = getPlayers();
+    const playerSeeds: Seed[] = []
+    players.forEach(p => {
+      const points = p.voteReceived.first.length * 4
+        + p.voteReceived.second.length * 3
+        + p.voteReceived.third.length * 2
+        + p.voteReceived.fourth.length * 1
+      playerSeeds.push({ name: p.name, score: points, })
+    });
+    playerSeeds.sort((a, b) => b.score - a.score);
+    const divider = playerSeeds.length / 2;
+    const topHalf = playerSeeds.map(p => p.name).slice(0, divider);
+    let bottomHalf = playerSeeds.map(p => p.name).slice(divider, playerSeeds.length);
+    topHalf.forEach((player1, index) => {
+      const player2 = bottomHalf[Math.floor(Math.random() * bottomHalf.length)];
+      pairs.push({ seed: index + 1, player1: player1, player2: player2 })
+      bottomHalf = bottomHalf.filter(b => b !== player2)
+    })
+    updatePairs(pairs);
+  }
   res.send(pairs);
 });
+
+app.get('/pairs/status', async (req, res) => {
+  const pairs = getPairs();
+  res.send(pairs.length > 0);
+
+});
+
+app.post('/pairs/reset', async (req, res) => {
+  try {
+    updatePairs([])
+    res.send(true);
+  }
+  catch (e) {
+    console.log(e);
+    res.send(false);
+  }
+
+});
+
+app.get('/externalPairs', async (req, res) => {
+  const pairs = getExternalPairs();
+  res.send(pairs);
+
+});
+
+app.post('/externalPairs', async (req, res) => {
+  try {
+    if (req.body.pairs && req.body.pairs.length === 2)
+      res.send(updateExternalPairs(req.body.pairs));
+    res.send(false);
+  }
+  catch (e) {
+    console.log(e);
+    res.send(false);
+  }
+
+});
+
+app.get('/draw', async (req, res) => {
+  const groups: Draw = getDraw();
+  const pairs = getPairs();
+  const externalPairs = getExternalPairs();
+  if (groups.size === 0 && pairs && pairs.length > 0 && externalPairs && externalPairs.length > 0) {
+    const seed1Pair = pairs.find(p => p.seed === 1)!;
+    const seed2Pair = pairs.find(p => p.seed === 2)!;
+    const filteredPair = pairs.filter(p => p.seed !== 1 && p.seed !== 2)
+    const group1NextPair = filteredPair[Math.floor(Math.random() * filteredPair.length)];
+    const group2NextPair = filteredPair.find(p => p.seed !== group1NextPair.seed)!
+    const group1ExternalPair = externalPairs[Math.floor(Math.random() * externalPairs.length)];
+    const group2ExternalPair = externalPairs.find(p => p.seed !== group1ExternalPair.seed)!
+    groups.set("Group A", [seed1Pair, group1NextPair, group1ExternalPair])
+    groups.set("Group B", [seed2Pair, group2NextPair, group2ExternalPair])
+    updateDraw(groups)
+  }
+  res.send(groups);
+})
+
+app.get('/draw/status', async (req, res) => {
+  const draw = getDraw();
+  res.send(draw.size > 0);
+
+});
+
+app.post('/draw/reset', async (req, res) => {
+  try {
+    updateDraw(new Map<string, Pair[]>())
+    res.send(true);
+  }
+  catch (e) {
+    console.log(e);
+    res.send(false);
+  }
+
+});
+
 
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
 
 

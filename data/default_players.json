@@ -76,6 +76,25 @@
         }
     },
     {
+        "name": "Kamal Barad",
+        "secret": "paris",
+        "hand": "Right",
+        "style": "Balanced",
+        "details": "",
+        "voteGiven": {
+            "first": "",
+            "second": "",
+            "third": "",
+            "fourth": ""
+        },
+        "voteReceived": {
+            "first": [],
+            "second": [],
+            "third": [],
+            "fourth": []
+        }
+    },
+    {
         "name": "Rahul Chuphal",
         "secret": "copenhegan",
         "hand": "Right",
@@ -99,25 +118,6 @@
         "secret": "utah",
         "hand": "Right",
         "style": "Attack",
-        "details": "",
-        "voteGiven": {
-            "first": "",
-            "second": "",
-            "third": "",
-            "fourth": ""
-        },
-        "voteReceived": {
-            "first": [],
-            "second": [],
-            "third": [],
-            "fourth": []
-        }
-    },
-    {
-        "name": "Rishi Anand",
-        "secret": "paris",
-        "hand": "Right",
-        "style": "Balanced",
         "details": "",
         "voteGiven": {
             "first": "",

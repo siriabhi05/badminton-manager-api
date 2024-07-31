@@ -1,5 +1,3 @@
-export interface DrawPlayer {
-    player1: string,
-    player2: string,
-    seed: number
-}
+import { Pair } from "./pairModel";
+
+export type Draw = Map<string, Pair[]>

@@ -1,0 +1,12 @@
+[
+    {
+        "seed": 5,
+        "player1": "External Pair1 Player1",
+        "player2": "External Pair1 Player2"
+    },
+    {
+        "seed": 6,
+        "player1": "External Pair2 Player1",
+        "player2": "External Pair2 Player2"
+    }
+]

@@ -8,13 +8,13 @@
         "voteGiven": {
             "first": "Ajay Sharma",
             "second": "Abhishek Srivastava",
-            "third": "Rishi Anand",
+            "third": "Kamal Barad",
             "fourth": "Vipin Dwivedi"
         },
         "voteReceived": {
             "first": [],
             "second": [
-                "Rishi Anand"
+                "Kamal Barad"
             ],
             "third": [
                 "Vipin Dwivedi",
@@ -31,13 +31,13 @@
         "details": "",
         "voteGiven": {
             "first": "Ajay Sharma",
-            "second": "Rishi Anand",
+            "second": "Kamal Barad",
             "third": "Aakash Mishra",
             "fourth": "Vipin Dwivedi"
         },
         "voteReceived": {
             "first": [
-                "Rishi Anand"
+                "Kamal Barad"
             ],
             "second": [
                 "Vipin Dwivedi",
@@ -70,7 +70,7 @@
             ],
             "second": [],
             "third": [
-                "Rishi Anand"
+                "Kamal Barad"
             ],
             "fourth": []
         }
@@ -92,6 +92,32 @@
             "second": [],
             "third": [],
             "fourth": []
+        }
+    },
+    {
+        "name": "Kamal Barad",
+        "secret": "paris",
+        "hand": "Right",
+        "style": "Balanced",
+        "details": "",
+        "voteGiven": {
+            "first": "Abhishek Srivastava",
+            "second": "Aakash Mishra",
+            "third": "Ajay Sharma",
+            "fourth": "Vipin Dwivedi"
+        },
+        "voteReceived": {
+            "first": [],
+            "second": [
+                "Rahul Srivastava",
+                "Abhishek Srivastava"
+            ],
+            "third": [
+                "Aakash Mishra"
+            ],
+            "fourth": [
+                "Vipin Dwivedi"
+            ]
         }
     },
     {
@@ -121,7 +147,7 @@
         "details": "",
         "voteGiven": {
             "first": "Ajay Sharma",
-            "second": "Rishi Anand",
+            "second": "Kamal Barad",
             "third": "Abhishek Srivastava",
             "fourth": "Vipin Dwivedi"
         },
@@ -130,32 +156,6 @@
             "second": [],
             "third": [],
             "fourth": []
-        }
-    },
-    {
-        "name": "Rishi Anand",
-        "secret": "paris",
-        "hand": "Right",
-        "style": "Balanced",
-        "details": "",
-        "voteGiven": {
-            "first": "Abhishek Srivastava",
-            "second": "Aakash Mishra",
-            "third": "Ajay Sharma",
-            "fourth": "Vipin Dwivedi"
-        },
-        "voteReceived": {
-            "first": [],
-            "second": [
-                "Rahul Srivastava",
-                "Abhishek Srivastava"
-            ],
-            "third": [
-                "Aakash Mishra"
-            ],
-            "fourth": [
-                "Vipin Dwivedi"
-            ]
         }
     },
     {
@@ -168,7 +168,7 @@
             "first": "Ajay Sharma",
             "second": "Abhishek Srivastava",
             "third": "Aakash Mishra",
-            "fourth": "Rishi Anand"
+            "fourth": "Kamal Barad"
         },
         "voteReceived": {
             "first": [],
@@ -177,7 +177,7 @@
             "fourth": [
                 "Rahul Srivastava",
                 "Aakash Mishra",
-                "Rishi Anand",
+                "Kamal Barad",
                 "Abhishek Srivastava"
             ]
         }
